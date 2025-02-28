@@ -9,22 +9,20 @@ import { Icategory } from '../../shared/interfaces/icategory';
   styleUrl: './categaries.component.scss'
 })
 export class CategariesComponent implements OnInit {
-  private readonly categoryService = inject(CategoryService)
-  category: Icategory[] = []
+  private readonly categoryService = inject(CategoryService);
+  category: Icategory[] = [];
+
+  ngOnInit(): void {
+    this.getcategorydata();
+  }
+
   getcategorydata(): void {
     this.categoryService.getAllcategry().subscribe({
       next: (res) => {
-        console.log(res.data)
-        this.category = res.data
+        this.category = res.data;
       },
       error: (err) => {
-        console.log(err)
       }
-
-    })
-
-  }
-  ngOnInit(): void {
-    this.getcategorydata();
+    });
   }
 }

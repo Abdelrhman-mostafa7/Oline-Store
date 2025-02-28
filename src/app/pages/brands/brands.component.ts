@@ -13,7 +13,7 @@ export class BrandsComponent implements OnInit {
   branddata: IBrand[] = [];
   selectedBrand: any = null;
   modal: any;
-  lastFocusedElement: HTMLElement | null = null; // لتخزين العنصر الذي كان مركزًا قبل فتح المودال
+  lastFocusedElement: HTMLElement | null = null;
 
   ngOnInit(): void {
     this.getbrand();
@@ -23,33 +23,25 @@ export class BrandsComponent implements OnInit {
   getbrand(): void {
     this.brandService.getAllbrands().subscribe({
       next: (res) => {
-        console.log("Brands Data:", res.data);
         this.branddata = res.data;
       },
       error: (err) => {
-        console.error("Error fetching brands:", err);
       }
     });
   }
 
   openModal(brandId: string): void {
-    this.lastFocusedElement = document.activeElement as HTMLElement; // حفظ العنصر الذي كان مركزًا
+    this.lastFocusedElement = document.activeElement as HTMLElement;
     this.brandService.getspecificbrands(brandId).subscribe({
       next: (res) => {
-        console.log("Brand Details:", res);
         this.selectedBrand = res.data;
-
-        // عرض المودال
         this.modal.show();
-
-        // إزالة inert لمنع الخطأ
         const modalElement = document.getElementById('brand-modal');
         if (modalElement) {
           modalElement.removeAttribute('inert');
         }
       },
       error: (err) => {
-        console.error("Error fetching brand details:", err);
       }
     });
   }
@@ -57,14 +49,10 @@ export class BrandsComponent implements OnInit {
   closeModal(): void {
     this.modal.hide();
     this.selectedBrand = null;
-
-    // إعادة تعيين inert عند إغلاق المودال
     const modalElement = document.getElementById('brand-modal');
     if (modalElement) {
       modalElement.setAttribute('inert', '');
     }
-
-    // إعادة التركيز إلى العنصر الذي كان مركزًا قبل فتح المودال
     if (this.lastFocusedElement) {
       this.lastFocusedElement.focus();
     }

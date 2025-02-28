@@ -15,7 +15,7 @@ export class AuthService {
 
   constructor(
     private httpClient: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: Object // إضافة PLATFORM_ID
+    @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
   sendRegister(data: object): Observable<any> {
@@ -27,18 +27,15 @@ export class AuthService {
   }
 
   getUserData(): void {
-    // التحقق من أن الكود يعمل في بيئة المتصفح
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('token');
       if (token !== null) {
         this.data = jwtDecode(token);
-        console.log(this.data);
       }
     }
   }
 
   logout(): void {
-    // التحقق من أن الكود يعمل في بيئة المتصفح
     if (isPlatformBrowser(this.platformId)) {
       if (localStorage.getItem('token') !== null) {
         localStorage.removeItem('token');
@@ -47,14 +44,16 @@ export class AuthService {
     this.data = null;
     this.router.navigate(['/login']);
   }
+
   setEmailVerify(data: object): Observable<any> {
-    return this.httpClient.post(`${environment.baseUrl}/api/v1/auth/forgotPasswords`,data);
+    return this.httpClient.post(`${environment.baseUrl}/api/v1/auth/forgotPasswords`, data);
   }
+
   setCodeVerify(data: object): Observable<any> {
     return this.httpClient.post(`${environment.baseUrl}/api/v1/auth/verifyResetCode`, data);
   }
+
   setrestpassword(data: object): Observable<any> {
     return this.httpClient.put(`${environment.baseUrl}/api/v1/auth/resetPassword`, data);
   }
-
 }

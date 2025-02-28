@@ -12,21 +12,18 @@ import { RouterLink } from '@angular/router';
 })
 export class CartComponent implements OnInit {
   private cartService = inject(CartService);
+  cartdetails: Icart = {} as Icart;
 
   ngOnInit(): void {
     this.datacart();
   }
 
-  cartdetails: Icart = {} as Icart;
-
   datacart(): void {
     this.cartService.datacart().subscribe({
       next: (res) => {
-        console.log(res.data);
         this.cartdetails = res.data;
       },
       error: (err) => {
-        console.log(err);
       }
     });
   }
@@ -44,18 +41,15 @@ export class CartComponent implements OnInit {
       if (result.isConfirmed) {
         this.cartService.removecart(id).subscribe({
           next: (res) => {
-            console.log(res.data);
             this.cartdetails = res.data;
             Swal.fire({
               title: "Deleted!",
               text: "Your item has been removed.",
               icon: "success"
             });
-            this.cartService.cartNumber.next(res.numOfCartItems)
-
+            this.cartService.cartNumber.next(res.numOfCartItems);
           },
           error: (err) => {
-            console.log(err);
             Swal.fire({
               title: "Error!",
               text: "Failed to remove the item.",
@@ -70,11 +64,9 @@ export class CartComponent implements OnInit {
   updataitemcart(id: string, count: number): void {
     this.cartService.updatacart(id, count).subscribe({
       next: (res) => {
-        console.log(res.data);
         this.cartdetails = res.data;
       },
       error: (err) => {
-        console.log(err);
       }
     });
   }
@@ -92,11 +84,9 @@ export class CartComponent implements OnInit {
       if (result.isConfirmed) {
         this.cartService.clearcart().subscribe({
           next: (res) => {
-            console.log(res.data);
             if (res.message === "success") {
               this.cartdetails = {} as Icart;
-              this.cartService.cartNumber.next(0)
-
+              this.cartService.cartNumber.next(0);
               Swal.fire({
                 title: "Deleted!",
                 text: "Your cart has been cleared.",
@@ -105,11 +95,8 @@ export class CartComponent implements OnInit {
             }
           },
           error: (err) => {
-            console.log(err);
           }
         });
-
-        
       }
     });
   }

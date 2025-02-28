@@ -27,30 +27,28 @@ export class ProductsComponent implements OnInit {
   search: any;
   product: Iproduct[] = [];
   wishlistItems: IWishlist[] = [];
-  
 
   ngOnInit(): void {
     this.getproductsdata();
     this.loadWishlist();
   }
+
   getproductsdata(): void {
     this.productService.getِAllproudcts().subscribe({
       next: (res) => {
-        console.log(res.data);
         this.product = res.data;
       },
       error: (res) => {
-        console.log(res);
       }
     });
   }
+
   loadWishlist(): void {
     this.wishlistService.getwishlist().subscribe({
       next: (res) => {
         this.wishlistItems = res.data;
       },
       error: (err) => {
-        console.log(err);
       }
     });
   }
@@ -62,24 +60,21 @@ export class ProductsComponent implements OnInit {
   addcart(id: string): void {
     this.cartService.addcart(id).subscribe({
       next: (res) => {
-        console.log(res);
         this.toastrService.success(res.message, "fresh Cart");
-        this.cartService.cartNumber.next(res.numOfCartItems)
+        this.cartService.cartNumber.next(res.numOfCartItems);
       },
       error: (err) => {
-        console.log(err);
       }
     });
   }
+
   addwish(id: string): void {
     this.wishlistService.Addwishlist(id).subscribe({
       next: (res) => {
-        console.log(res);
         this.toastrService.success(res.message, "Wishlist");
         this.loadWishlist();
       },
       error: (err) => {
-        console.log(err);
       }
     });
   }

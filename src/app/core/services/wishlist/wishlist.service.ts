@@ -12,15 +12,13 @@ export class WishlistService {
 
   constructor(
     private httpClient: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: Object // إضافة PLATFORM_ID
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    // التحقق من أن الكود يعمل في المتصفح قبل الوصول إلى localStorage
     if (isPlatformBrowser(this.platformId)) {
       this.token = localStorage.getItem('token');
     }
   }
 
-  // إضافة منتج إلى قائمة الرغبات
   Addwishlist(id: string): Observable<any> {
     const headers: any = {};
     if (this.token) headers.token = this.token;
@@ -41,4 +39,4 @@ export class WishlistService {
   
     return this.httpClient.delete(`${environment.baseUrl}/api/v1/wishlist/${id}`, { headers });
   }
-  }
+}

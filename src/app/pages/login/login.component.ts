@@ -8,7 +8,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule,TranslatePipe,RouterLink],
+  imports: [ReactiveFormsModule, TranslatePipe, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -32,7 +32,6 @@ export class LoginComponent {
       this.Isloading = true;
       this.authService.sendlogin(this.login.value).subscribe({
         next: (res) => {
-          console.log(res);
           if (res.message === 'success') {
             setTimeout(() => {
               if (isPlatformBrowser(this.platformId)) {
@@ -47,7 +46,6 @@ export class LoginComponent {
           this.Isloading = false;
         },
         error: (err: HttpErrorResponse) => {
-          console.log(err);
           this.Isloading = false;
           this.mesError = err.error.message;
         },

@@ -9,39 +9,38 @@ import { ProductsComponent } from "../products/products.component";
 
 @Component({
   selector: 'app-home',
-  imports: [CarouselModule, FormsModule,ProductsComponent],
+  imports: [CarouselModule, FormsModule, ProductsComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
-  
-  search:string=''
+  search: string = '';
+
   custMainpsliader: OwlOptions = {
     loop: true,
     mouseDrag: true,
-    rtl:true,
+    rtl: true,
     touchDrag: true,
     pullDrag: false,
-    autoplay:true,
-    autoplayTimeout:4000,
-    autoplayHoverPause:true,
+    autoplay: true,
+    autoplayTimeout: 4000,
+    autoplayHoverPause: true,
     dots: true,
     navSpeed: 700,
     navText: ['', ''],
-    items:1,
-
+    items: 1,
     nav: false
-  }
+  };
 
   customOptions: OwlOptions = {
     loop: true,
-    rtl:true,
+    rtl: true,
     mouseDrag: true,
     touchDrag: true,
     pullDrag: false,
-    autoplay:true,
-    autoplayTimeout:4000,
-    autoplayHoverPause:true,
+    autoplay: true,
+    autoplayTimeout: 4000,
+    autoplayHoverPause: true,
     dots: true,
     navSpeed: 700,
     navText: ['', ''],
@@ -60,43 +59,36 @@ export class HomeComponent implements OnInit {
       }
     },
     nav: false
+  };
+
+  private readonly productService = inject(ProductService);
+  private readonly categoryService = inject(CategoryService);
+
+  product: Iproduct[] = [];
+  category: Icategory[] = [];
+
+  ngOnInit(): void {
+    this.getproductsdata();
+    this.getcategorydata();
   }
-  private readonly productService = inject(ProductService)
 
-
-  product:Iproduct[]=[]
-  getproductsdata():void{
+  getproductsdata(): void {
     this.productService.getِAllproudcts().subscribe({
-      next:(res)=>{
-        console.log(res.data);
-        this.product=res.data
+      next: (res) => {
+        this.product = res.data;
       },
-      error:(res)=>{
-        console.log(res)
+      error: (res) => {
       }
-    })
-
+    });
   }
 
-//=================================================================
-private readonly categoryService = inject(CategoryService)
-category:Icategory[]=[]
-getcategorydata():void{
-  this.categoryService.getAllcategry().subscribe({
-    next:(res)=>{
-      console.log(res.data)
-      this.category=res.data
-    },
-    error:(err)=>{
-      console.log(err)
-    }
-
-  })
-
+  getcategorydata(): void {
+    this.categoryService.getAllcategry().subscribe({
+      next: (res) => {
+        this.category = res.data;
+      },
+      error: (err) => {
+      }
+    });
+  }
 }
-ngOnInit(): void {
-  this.getproductsdata();
-  this.getcategorydata();
-}
-}
-

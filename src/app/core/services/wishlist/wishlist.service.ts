@@ -22,28 +22,23 @@ export class WishlistService {
 
   // إضافة منتج إلى قائمة الرغبات
   Addwishlist(id: string): Observable<any> {
-    return this.httpClient.post(`${environment.baseUrl}/api/v1/wishlist`, { "productId": id }, {
-      headers: {
-        token: this.token
-      }
-    });
+    const headers: any = {};
+    if (this.token) headers.token = this.token;
+  
+    return this.httpClient.post(`${environment.baseUrl}/api/v1/wishlist`, { "productId": id }, { headers });
   }
-
-  // جلب قائمة الرغبات
+  
   getwishlist(): Observable<any> {
-    return this.httpClient.get(`${environment.baseUrl}/api/v1/wishlist`, {
-      headers: {
-        token: this.token
-      }
-    });
+    const headers: any = {};
+    if (this.token) headers.token = this.token;
+  
+    return this.httpClient.get(`${environment.baseUrl}/api/v1/wishlist`, { headers });
   }
-
-  // حذف منتج من قائمة الرغبات
+  
   deletwishlist(id: string): Observable<any> {
-    return this.httpClient.delete(`${environment.baseUrl}/api/v1/wishlist/${id}`, {
-      headers: {
-        token: this.token
-      }
-    });
+    const headers: any = {};
+    if (this.token) headers.token = this.token;
+  
+    return this.httpClient.delete(`${environment.baseUrl}/api/v1/wishlist/${id}`, { headers });
   }
-}
+  }
